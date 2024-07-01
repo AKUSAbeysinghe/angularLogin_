@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,24 @@ import {FormsModule} from '@angular/forms';
 })
 export class LoginComponent {
 onLogin() {
-throw new Error('Method not implemented.');
+  debugger;
+//throw new Error('Method not implemented.');
+
+    const isLocalData = localStorage.getItem("angularLocal");
+    if(isLocalData !=null){
+      const users = JSON.parse(isLocalData);
+
+      const isUserFound = users.find((m: any) => m.userName == this.userLogin.userName && m.password == this.userLogin.password);
+      if(isUserFound != undefined){
+        this.router.navigateByUrl('dashboard')
+      }
+      else{
+        alert('User name or password is wrong');
+      }
+    }
+    else{
+      alert("No User Found!");
+    }
 }
 toggleView() {
 throw new Error('Method not implemented.');
@@ -30,6 +48,8 @@ throw new Error('Method not implemented.');
     password: "",
   }
 
+  router = inject(Router);
+
 
   onRegister(){
     debugger;
@@ -47,6 +67,9 @@ throw new Error('Method not implemented.');
 
     alert("Registration Success!");
   }
+
+
+ 
 
 }
 
